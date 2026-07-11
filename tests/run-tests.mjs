@@ -17,6 +17,14 @@ context.globalThis = context;
 vm.createContext(context);
 vm.runInContext(code, context);
 const E = context.AdminEngine;
+const FIXTURE_TODAY = '2026-07-10';
+const now = new Date();
+const currentLocalDate = [
+  now.getFullYear(),
+  String(now.getMonth() + 1).padStart(2, '0'),
+  String(now.getDate()).padStart(2, '0')
+].join('-');
+assert.equal(E.TODAY, currentLocalDate, 'runtime TODAY must follow the current local calendar date');
 
 const expectedFails = {
   invoice: ['INV-008', 'INV-009', 'INV-010'],
@@ -51,6 +59,10 @@ for (const publicPage of [publicHome, adminSystems, launcher]) {
   assert.equal(publicPage.includes('hello@example.com'), false, 'public pages must not contain placeholder email');
   assert.equal(publicPage.includes('Open demo'), false, 'public pages must not use old demo-first CTA wording');
 }
+assert.ok(publicHome.includes('mailto:buttercoder.dev@gmail.com?subject=Admin%20Audit%20Request'), 'homepage has a real audit contact path');
+assert.ok(adminSystems.includes('mailto:buttercoder.dev@gmail.com?subject=Admin%20Audit%20Request'), 'systems page has a real audit contact path');
+assert.ok(publicHome.includes('Demo only</span><h3>Practice Admin'), 'homepage labels Practice Admin as demo only');
+assert.ok(adminSystems.includes('Demo only</p><h3>Practice Admin Setup'), 'systems page labels Practice Admin as demo only');
 
 for (const system of SYSTEMS) {
   assert.ok(publicHome.includes(`app/${system}-admin/?demo=1`), `homepage links to ${system} sample route`);
@@ -107,14 +119,14 @@ for (const system of SYSTEMS) {
   assert.ok(E.systems[system].statuses.length >= 8, `${system}: has enough workflow statuses`);
 
   const records = E.sampleRecords(system);
-  const validations = records.map((r) => E.validate(system, r, records));
+  const validations = records.map((r) => E.validate(system, r, records, FIXTURE_TODAY));
   const failed = records.filter((_, i) => validations[i].status === 'Fail').map((r) => r[ID_KEY[system]]);
   const passed = records.length - failed.length;
   assert.equal(records.length, 10, `${system}: sample set should contain 10 records`);
   assert.equal(passed, 7, `${system}: should pass 7 records`);
   assert.equal(JSON.stringify(failed), JSON.stringify(expectedFails[system]), `${system}: failing records should match expected blockers`);
 
-  const report = E.report(system, records);
+  const report = E.report(system, records, FIXTURE_TODAY);
   assert.equal(report.total, 10, `${system}: report total should be 10`);
   assert.equal(report.passed, 7, `${system}: report passed should be 7`);
   assert.equal(report.failed, 3, `${system}: report failed should be 3`);
@@ -127,10 +139,10 @@ for (const system of SYSTEMS) {
   assertSanitizedDataset(productionRecords);
   const ids = productionRecords.map((r) => r[ID_KEY[system]]);
   assert.equal(new Set(ids).size, ids.length, `${system}: production-scale fixture IDs are unique`);
-  const productionValidations = productionRecords.map((r) => E.validate(system, r, productionRecords));
+  const productionValidations = productionRecords.map((r) => E.validate(system, r, productionRecords, FIXTURE_TODAY));
   const productionFailed = productionRecords.filter((_, i) => productionValidations[i].status === 'Fail').map((r) => r[ID_KEY[system]]);
   assert.equal(JSON.stringify(productionFailed), JSON.stringify(expectedFailIds(system, 240)), `${system}: production-scale failing records are deterministic`);
-  const productionReport = E.report(system, productionRecords);
+  const productionReport = E.report(system, productionRecords, FIXTURE_TODAY);
   assert.equal(productionReport.total, 240, `${system}: production report total should be 240`);
   assert.equal(productionReport.passed, 168, `${system}: production report passed should be 168`);
   assert.equal(productionReport.failed, 72, `${system}: production report failed should be 72`);

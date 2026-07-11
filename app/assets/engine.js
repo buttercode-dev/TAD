@@ -2,7 +2,14 @@
 (function (root) {
   'use strict';
 
-  var TODAY = '2026-07-10';
+  function localIsoDate(date) {
+    date = date || new Date();
+    var y = date.getFullYear();
+    var m = String(date.getMonth() + 1).padStart(2, '0');
+    var d = String(date.getDate()).padStart(2, '0');
+    return y + '-' + m + '-' + d;
+  }
+  var TODAY = localIsoDate(new Date());
   function has(v) { return v !== undefined && v !== null && String(v).trim() !== ''; }
   function parseDate(s) {
     if (!has(s)) return null;

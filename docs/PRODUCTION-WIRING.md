@@ -55,3 +55,10 @@ Do not connect real client data to the reserved Supabase project until all of th
 - migration and rollback procedures
 
 Until then, the product must continue to disclose that browser storage is local and that real client data belongs in a private approved workspace.
+
+## Phase 1 public safety boundary
+
+- Runtime date rules use the current local calendar date; deterministic tests inject a fixed fixture date.
+- Every system displays a browser-only data warning.
+- Practice Admin is sample-only in the public deployment: add, edit and CSV import are disabled and its local data is cleared.
+- Audit CTAs open a real email request to the public project contact.

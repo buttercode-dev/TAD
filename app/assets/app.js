@@ -3,7 +3,12 @@
   var E = window.AdminEngine;
   var system = document.body.dataset.system || 'invoice';
   var config = E.systems[system];
+  var sensitiveSystemLocked = system === 'practice';
   var records = load();
+  if (sensitiveSystemLocked) {
+    localStorage.removeItem(config.storageKey);
+    records = [];
+  }
   var editingIndex = null;
   var activeFilter = 'all';
   var query = '';
@@ -34,6 +39,17 @@
   }
 
   function ensureEnhancements() {
+    if (!$('data-safety-notice')) {
+      var notice = document.createElement('div');
+      notice.id = 'data-safety-notice';
+      notice.setAttribute('role', 'note');
+      notice.style.cssText = 'margin:0 0 18px;padding:14px 16px;border:1px solid #b56b00;background:#fff8e8;color:#4a3212;font-size:13px;line-height:1.5';
+      notice.innerHTML = sensitiveSystemLocked
+        ? '<strong>Public demonstration only.</strong> Patient or health information is not accepted here. Adding, editing and importing records is disabled. Use sample data only.'
+        : '<strong>Browser-only pilot.</strong> Do not enter identity numbers, banking details, medical information, passwords or other sensitive data. Records stay only in this browser and may be lost.';
+      var head = document.querySelector('.app-head');
+      if (head) head.before(notice);
+    }
     if (!$('toolbar')) {
       var wrap = document.querySelector('.tablewrap');
       var toolbar = document.createElement('div');
@@ -72,6 +88,18 @@
     document.querySelectorAll('[data-filter]').forEach(function (b) { b.addEventListener('click', function () { activeFilter = b.dataset.filter; render(); }); });
   }
 
+  function bindEditButtons(selector) {
+    document.querySelectorAll(selector).forEach(function (b) {
+      if (sensitiveSystemLocked) {
+        b.disabled = true;
+        b.textContent = 'Demo only';
+        b.setAttribute('aria-disabled', 'true');
+      } else {
+        b.addEventListener('click', function () { openForm(Number(b.dataset.edit)); });
+      }
+    });
+  }
+
   function render() {
     ensureEnhancements();
     var validations = records.map(function (r) { return E.validate(system, r, records); });
@@ -103,7 +131,7 @@
       var r = item.r, v = item.v;
       return '<tr class="' + v.status.toLowerCase() + '">' + keys.map(function (k) { return '<td>' + escapeHtml(r[k]) + '</td>'; }).join('') + '<td>' + statusPill(v) + '<small>' + escapeHtml(v.flags[0] ? v.flags[0].label : 'Ready to move') + '</small></td><td><button class="tiny" data-edit="' + item.i + '">Edit</button></td></tr>';
     }).join('') + '</tbody>';
-    document.querySelectorAll('[data-edit]').forEach(function (b) { b.addEventListener('click', function () { openForm(Number(b.dataset.edit)); }); });
+    bindEditButtons('[data-edit]');
   }
 
   function renderCards(items) {
@@ -120,7 +148,7 @@
       var r = item.r, v = item.v;
       return '<article class="record-card ' + v.status.toLowerCase() + '"><div class="record-card-head"><div><p class="eyebrow">' + escapeHtml(r.status || config.label) + '</p><h3>' + escapeHtml(idOf(r) || 'Untitled record') + '</h3></div>' + statusPill(v) + '</div><div class="record-fields">' + keys.map(function (k) { return '<div class="record-field"><span>' + label(k) + '</span><strong>' + escapeHtml(r[k] || '—') + '</strong></div>'; }).join('') + '</div><p class="muted">' + escapeHtml(v.flags[0] ? v.flags[0].label : 'Ready to move') + '</p><button class="tiny" data-edit="' + item.i + '">Edit record</button></article>';
     }).join('');
-    document.querySelectorAll('#record-cards [data-edit]').forEach(function (b) { b.addEventListener('click', function () { openForm(Number(b.dataset.edit)); }); });
+    bindEditButtons('#record-cards [data-edit]');
   }
 
   function renderBlocked(validations) {
@@ -129,6 +157,10 @@
   }
 
   function openForm(index) {
+    if (sensitiveSystemLocked) {
+      toast('Practice Admin is demo-only. Do not enter patient data.');
+      return;
+    }
     editingIndex = typeof index === 'number' ? index : null;
     var record = editingIndex === null ? {} : records[editingIndex];
     $('record-form').innerHTML = config.fields.map(function (f) {
@@ -145,12 +177,51 @@
 
   $('load-demo').addEventListener('click', function () { records = E.sampleRecords(system); activeFilter = 'all'; query = ''; if ($('record-search')) $('record-search').value = ''; save(); render(); toast('Sample data loaded'); });
   $('empty-data').addEventListener('click', function () { if (confirm('Clear records for this system? Export first if you need a backup.')) { records = []; save(); render(); toast('Records cleared'); } });
-  $('add-record').addEventListener('click', function () { openForm(); });
+  $('add-record').addEventListener('click', function () {
+    if (sensitiveSystemLocked) return toast('Practice Admin is demo-only.');
+    openForm();
+  });
   $('export-csv').addEventListener('click', function () { download(system + '-admin.csv', E.toCSV(system, records)); toast('CSV exported'); });
-  $('import-csv').addEventListener('change', function (e) { var file = e.target.files[0]; if (!file) return; file.text().then(function (text) { records = E.parseCSV(text); save(); render(); toast('CSV imported'); }); });
+  $('import-csv').addEventListener('change', function (e) {
+    if (sensitiveSystemLocked) {
+      e.target.value = '';
+      return toast('Practice Admin import is disabled in the public demo.');
+    }
+    var file = e.target.files[0];
+    if (!file) return;
+    if (file.size > 2 * 1024 * 1024) {
+      e.target.value = '';
+      return toast('CSV is too large. Maximum size is 2 MB.');
+    }
+    file.text().then(function (text) {
+      records = E.parseCSV(text);
+      save();
+      render();
+      toast('CSV imported');
+    }).catch(function () { toast('CSV could not be read'); });
+  });
   $('close-modal').addEventListener('click', function () { $('record-modal').close(); });
-  $('record-form').addEventListener('submit', function (e) { e.preventDefault(); var r = formRecord(); if (editingIndex === null) records.unshift(r); else records[editingIndex] = r; save(); $('record-modal').close(); render(); toast(editingIndex === null ? 'Record added' : 'Record updated'); });
+  $('record-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (sensitiveSystemLocked) {
+      $('record-modal').close();
+      return toast('Practice Admin is demo-only.');
+    }
+    var r = formRecord();
+    if (editingIndex === null) records.unshift(r); else records[editingIndex] = r;
+    save();
+    $('record-modal').close();
+    render();
+    toast(editingIndex === null ? 'Record added' : 'Record updated');
+  });
 
-  if (new URLSearchParams(location.search).get('demo') === '1' && !records.length) { records = E.sampleRecords(system); save(); }
+  if (sensitiveSystemLocked) {
+    $('add-record').disabled = true;
+    $('import-csv').disabled = true;
+  }
+  if (new URLSearchParams(location.search).get('demo') === '1' && !records.length) {
+    records = E.sampleRecords(system);
+    if (!sensitiveSystemLocked) save();
+  }
   render();
 })();
