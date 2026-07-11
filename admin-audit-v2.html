@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Admin Audit — The Admin Department</title>
+  <meta name="description" content="Find the first admin workflow to fix, the controls causing the leak and a 14-day controlled pilot plan." />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="admin-audit-v2.css" />
+</head>
+<body>
+  <header class="site-header no-print">
+    <a class="logo" href="index.html">The Admin Department</a>
+    <nav><a href="index.html">Home</a><a href="admin-systems.html">Systems</a><a href="app/">Admin HQ</a><a class="nav-cta" href="#audit">Audit</a></nav>
+  </header>
+
+  <main>
+    <section class="audit-hero">
+      <div class="hero-copy-wrap">
+        <p class="eyebrow">Admin Audit v2</p>
+        <h1>Find the admin workflow that is costing you control.</h1>
+        <p class="hero-copy">This is not a generic scorecard. It connects department pressure, warning signals and missing operating controls, then gives you one workflow to fix first and a 14-day manual-first pilot.</p>
+        <div class="hero-actions no-print"><a class="button primary" href="#audit">Start the audit</a><a class="button secondary" href="admin-systems.html">See the working systems</a></div>
+        <p class="trust">No account · No automatic submission · No sensitive records</p>
+      </div>
+      <aside class="audit-preview" aria-label="What the audit produces">
+        <div class="preview-head"><span class="stamp">Your output</span><span class="date">About 8 minutes</span></div>
+        <ol class="output-list">
+          <li><span>01</span><div><strong>Admin leakage score</strong><p>How much operating pressure the reported workflow is carrying.</p></div></li>
+          <li><span>02</span><div><strong>Fix-first department</strong><p>The single setup most likely to improve control first.</p></div></li>
+          <li><span>03</span><div><strong>Root causes</strong><p>Capture, ownership, due dates, approvals, visibility or reporting.</p></div></li>
+          <li><span>04</span><div><strong>14-day pilot</strong><p>A controlled way to test the recommendation before expanding.</p></div></li>
+        </ol>
+      </aside>
+    </section>
+
+    <section class="audit-boundary" aria-label="Data safety boundary">
+      <p class="eyebrow">Safe by design</p>
+      <div><h2>Describe the process. Never paste the records.</h2><p>Do not enter identity numbers, banking details, passwords, patient information, confidential client records or document contents. The audit runs in your browser and does not store or transmit answers automatically.</p></div>
+    </section>
+
+    <section id="audit" class="audit-workspace">
+      <div id="audit-progress" class="progress-shell no-print">
+        <div class="progress-top"><div><p class="eyebrow">Structured diagnostic</p><h2>Build your Admin Audit</h2></div><span id="step-count" class="step-count">1 of 4</span></div>
+        <ol class="progress-rail" aria-label="Audit progress"><li data-progress-step="1"><span>1</span><strong>Context</strong></li><li data-progress-step="2"><span>2</span><strong>Pressure</strong></li><li data-progress-step="3"><span>3</span><strong>Controls</strong></li><li data-progress-step="4"><span>4</span><strong>Evidence</strong></li></ol>
+      </div>
+
+      <form id="admin-audit-form" class="audit-form" novalidate>
+        <section class="audit-step" data-step="1">
+          <div class="step-heading"><span>01</span><div><p class="eyebrow">Business context</p><h2>How much admin is this workflow carrying?</h2><p>Use approximate operating numbers. Do not include customer or employee data.</p></div></div>
+          <div class="field-grid">
+            <label>Business name<input name="business" required maxlength="200" autocomplete="organization" /></label>
+            <label>Your name<input name="contact" required maxlength="200" autocomplete="name" /></label>
+            <label>Email<input name="email" required type="email" maxlength="320" autocomplete="email" /></label>
+            <label>Team size<select name="team_size" required><option value="">Choose</option><option>Just me</option><option>2–5 people</option><option>6–20 people</option><option>More than 20</option></select></label>
+            <label>Admin hours per week<select name="admin_hours" required><option value="">Choose</option><option>Less than 5</option><option>5–10</option><option>11–20</option><option>More than 20</option></select></label>
+            <label>Approximate active records per week<select name="records_per_week" required><option value="">Choose</option><option value="10">Fewer than 10</option><option value="30">10–29</option><option value="60">30–99</option><option value="120">100 or more</option></select></label>
+            <label>Where admin arrives<select name="channels" required><option value="">Choose</option><option value="1">One main channel</option><option value="2">Two channels</option><option value="3">Three or four channels</option><option value="5">Five or more channels</option></select></label>
+            <label>What must improve first?<input name="outcome" required maxlength="500" placeholder="Example: stop quote follow-ups disappearing" /></label>
+          </div>
+          <div class="step-actions"><span></span><button class="button primary" type="button" data-next>Continue to department pressure</button></div>
+        </section>
+
+        <section class="audit-step" data-step="2" hidden>
+          <div class="step-heading"><span>02</span><div><p class="eyebrow">Department pressure</p><h2>Where does the admin hurt most?</h2><p>Rate what actually happens today—not the policy, intention or software capability.</p></div></div>
+          <div class="department-grid">
+            <label class="rating-card"><strong>Invoice Admin</strong><small>Supplier invoices, approvals, filing, duplicates and payment evidence.</small><select name="invoice" required><option value="0">0 — controlled or not relevant</option><option value="1">1 — occasional friction</option><option value="2">2 — repeated delays</option><option value="3">3 — serious leakage</option><option value="4">4 — urgent breakdown</option></select></label>
+            <label class="rating-card accent-blue"><strong>Sales Admin</strong><small>Enquiries, response ownership, quotes, follow-ups and lost leads.</small><select name="sales" required><option value="0">0 — controlled or not relevant</option><option value="1">1 — occasional friction</option><option value="2">2 — repeated delays</option><option value="3">3 — serious leakage</option><option value="4">4 — urgent breakdown</option></select></label>
+            <label class="rating-card accent-purple"><strong>Client Admin</strong><small>Onboarding, documents, agreements, payments and handover readiness.</small><select name="client" required><option value="0">0 — controlled or not relevant</option><option value="1">1 — occasional friction</option><option value="2">2 — repeated delays</option><option value="3">3 — serious leakage</option><option value="4">4 — urgent breakdown</option></select></label>
+            <label class="rating-card accent-orange"><strong>Property Admin</strong><small>Tenant requests, approvals, supplier quotes, scheduling and proof.</small><select name="property" required><option value="0">0 — controlled or not relevant</option><option value="1">1 — occasional friction</option><option value="2">2 — repeated delays</option><option value="3">3 — serious leakage</option><option value="4">4 — urgent breakdown</option></select></label>
+            <label class="rating-card accent-mint"><strong>Practice / Booking Admin</strong><small>Booking and front-desk workflow only. Never enter patient information.</small><select name="practice" required><option value="0">0 — controlled or not relevant</option><option value="1">1 — occasional friction</option><option value="2">2 — repeated delays</option><option value="3">3 — serious leakage</option><option value="4">4 — urgent breakdown</option></select></label>
+            <label class="rating-card accent-pink"><strong>Member Admin</strong><small>Onboarding, attendance risk, payment follow-up and reactivation.</small><select name="member" required><option value="0">0 — controlled or not relevant</option><option value="1">1 — occasional friction</option><option value="2">2 — repeated delays</option><option value="3">3 — serious leakage</option><option value="4">4 — urgent breakdown</option></select></label>
+          </div>
+          <div class="step-actions"><button class="button secondary" type="button" data-back>Back</button><button class="button primary" type="button" data-next>Continue to operating controls</button></div>
+        </section>
+
+        <section class="audit-step" data-step="3" hidden>
+          <div class="step-heading"><span>03</span><div><p class="eyebrow">Operating controls</p><h2>Can work move without living in someone’s head?</h2><p>Rate the control across the workflow as a whole.</p></div></div>
+          <div class="control-grid">
+            <label><strong>One capture point</strong><small>New work enters one visible list.</small><select name="control_capture" required><option value="0">0 — none</option><option value="1">1 — mostly scattered</option><option value="2">2 — partly controlled</option><option value="3">3 — mostly consistent</option><option value="4">4 — fully visible</option></select></label>
+            <label><strong>Named ownership</strong><small>Every active item has one responsible person.</small><select name="control_ownership" required><option value="0">0 — none</option><option value="1">1 — usually the owner</option><option value="2">2 — informal</option><option value="3">3 — mostly named</option><option value="4">4 — always named</option></select></label>
+            <label><strong>Next action</strong><small>Open items say what must happen next.</small><select name="control_next_action" required><option value="0">0 — absent</option><option value="1">1 — lives in memory</option><option value="2">2 — inconsistent</option><option value="3">3 — mostly recorded</option><option value="4">4 — always recorded</option></select></label>
+            <label><strong>Due dates</strong><small>Follow-ups, approvals and commitments carry dates.</small><select name="control_due_dates" required><option value="0">0 — absent</option><option value="1">1 — rarely used</option><option value="2">2 — some dates</option><option value="3">3 — mostly dated</option><option value="4">4 — every item dated</option></select></label>
+            <label><strong>Approval rules</strong><small>Steps and limits are written and followed.</small><select name="control_approvals" required><option value="0">0 — no rules</option><option value="1">1 — depends who is asked</option><option value="2">2 — partly defined</option><option value="3">3 — mostly followed</option><option value="4">4 — clear and consistent</option></select></label>
+            <label><strong>Owner visibility</strong><small>Open, late and blocked work is visible without asking.</small><select name="control_visibility" required><option value="0">0 — invisible</option><option value="1">1 — requires chasing staff</option><option value="2">2 — takes effort</option><option value="3">3 — mostly visible</option><option value="4">4 — visible at a glance</option></select></label>
+            <label><strong>Weekly reporting</strong><small>Volume, age, failures and completed work are reviewed.</small><select name="control_reporting" required><option value="0">0 — none</option><option value="1">1 — ad hoc</option><option value="2">2 — manual and irregular</option><option value="3">3 — regular</option><option value="4">4 — reliable and used</option></select></label>
+            <label><strong>Written process</strong><small>Someone new can follow the workflow.</small><select name="control_documented" required><option value="0">0 — not written</option><option value="1">1 — fragments only</option><option value="2">2 — partly written</option><option value="3">3 — usable</option><option value="4">4 — current and trained</option></select></label>
+          </div>
+          <div class="step-actions"><button class="button secondary" type="button" data-back>Back</button><button class="button primary" type="button" data-next>Continue to evidence</button></div>
+        </section>
+
+        <section class="audit-step" data-step="4" hidden>
+          <div class="step-heading"><span>04</span><div><p class="eyebrow">Signals and evidence</p><h2>What proves the pressure is real?</h2><p>Select current signals and the workflow evidence you can actually inspect.</p></div></div>
+          <div class="split-grid">
+            <div class="choice-panel"><h3>Current warning signals</h3><div class="choice-list">
+              <label><input type="checkbox" name="signals" value="missed_followups" /><span>Leads or quotes miss follow-up.</span></label><label><input type="checkbox" name="signals" value="late_invoices" /><span>Invoices or payment evidence are late or hard to find.</span></label><label><input type="checkbox" name="signals" value="missing_documents" /><span>Work waits for missing documents.</span></label><label><input type="checkbox" name="signals" value="approvals_stuck" /><span>Approvals depend on messages, memory or one person.</span></label><label><input type="checkbox" name="signals" value="property_requests" /><span>Property or maintenance requests disappear across channels.</span></label><label><input type="checkbox" name="signals" value="booking_admin" /><span>Bookings or confirmations are inconsistent.</span></label><label><input type="checkbox" name="signals" value="member_churn" /><span>Member risk lacks a dated follow-up queue.</span></label><label><input type="checkbox" name="signals" value="manual_reporting" /><span>Weekly reporting is assembled manually.</span></label><label><input type="checkbox" name="signals" value="owner_visibility" /><span>The owner must ask what is done or overdue.</span></label><label><input type="checkbox" name="signals" value="repeated_rework" /><span>The same admin mistakes keep returning.</span></label>
+            </div></div>
+            <div class="choice-panel evidence-panel"><h3>Evidence you can inspect</h3><p>The audit becomes more trustworthy when answers can be checked.</p><div class="choice-list">
+              <label><input type="checkbox" name="evidence" value="live_list" /><span>A current list of open records.</span></label><label><input type="checkbox" name="evidence" value="written_process" /><span>A written process or checklist.</span></label><label><input type="checkbox" name="evidence" value="recent_report" /><span>A recent weekly or monthly report.</span></label><label><input type="checkbox" name="evidence" value="sample_records" /><span>A protected sample of real records can be reviewed.</span></label>
+            </div><label class="notes-field">Process notes<textarea name="notes" maxlength="1600" placeholder="Describe the workflow problem without copying confidential records."></textarea></label></div>
+          </div>
+          <div class="step-actions"><button class="button secondary" type="button" data-back>Back</button><button class="button primary" type="submit">Build my full audit</button></div>
+        </section>
+      </form>
+
+      <section id="audit-result" class="audit-result" hidden aria-live="polite">
+        <div class="result-cover"><div><p class="eyebrow">Admin Audit Report</p><h1 id="audit-business">Your business</h1><p id="audit-band" class="result-band">Audit result</p></div><div class="score-stamp"><span>Admin leakage</span><strong id="audit-score">0/100</strong></div></div>
+        <div class="result-meta"><article><span>Evidence quality</span><strong id="evidence-level">—</strong><p id="evidence-note">—</p></article><article><span>Coordination load</span><strong id="complexity-level">—</strong><p>Based on stated channels, weekly record volume and team context.</p></article></div>
+        <section class="result-section fix-first"><p class="eyebrow">Fix this first</p><div class="fix-grid"><div><h2 id="primary-department">Department</h2><p id="primary-summary">—</p></div><aside><span>First controlled step</span><strong id="primary-step">—</strong></aside></div></section>
+        <section class="result-section"><p class="eyebrow">Priority map</p><h2>Why these departments ranked highest</h2><div id="audit-priorities" class="priorities"></div></section>
+        <section class="result-section"><p class="eyebrow">Root causes</p><h2>The controls making the admin leak repeat</h2><div id="root-causes" class="root-grid"></div></section>
+        <section class="result-section"><p class="eyebrow">Controlled pilot</p><h2>Prove the recommendation in 14 days</h2><ol id="pilot-plan" class="pilot-plan"></ol><div class="measure-box"><h3>Success measures</h3><ul id="success-measures"></ul></div></section>
+        <section class="result-section decision-box"><p class="eyebrow">Decision rule</p><h2>Do not automate a broken workflow.</h2><p>First prove that one list, clear ownership, due dates and a repeatable report improve control. Expand or automate only after the pilot data shows the workflow is being followed.</p></section>
+        <div class="result-actions no-print"><a id="email-audit" class="button primary" href="mailto:buttercoder.dev@gmail.com?subject=Admin%20Audit%20Review">Email this audit for review</a><button id="print-audit" class="button secondary" type="button">Save or print report</button><button id="restart-audit" class="text-button" type="button">Start again</button></div>
+        <p class="fine-print">This is a self-reported workflow diagnosis, not accounting, legal, clinical or compliance advice. The recommendation must be validated against appropriately protected real records before implementation.</p>
+      </section>
+    </section>
+  </main>
+
+  <footer><p>The Admin Department — practical admin systems for businesses tired of running everything manually. <a href="mailto:buttercoder.dev@gmail.com">buttercoder.dev@gmail.com</a></p></footer>
+  <script src="admin-audit-v2.js"></script>
+</body>
+</html>
