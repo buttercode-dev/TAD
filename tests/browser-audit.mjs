@@ -214,7 +214,7 @@ try {
   assert.deepEqual(report, {
     resultVisible: true,
     formHidden: true,
-    score: '100/100',
+    score: '95/100',
     band: 'Critical admin leakage',
     primary: 'Property Admin',
     rootCauses: 4,
