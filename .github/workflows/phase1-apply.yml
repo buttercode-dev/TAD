@@ -5,7 +5,7 @@ on:
     branches: [main]
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   apply:
@@ -21,28 +21,32 @@ jobs:
           node-version: 24
       - run: mkdir -p supabase/migrations
       - name: Apply patch with assertion capture
+        id: patch
+        continue-on-error: true
         run: |
-          set +e
           node scripts/apply-phase1.mjs >/tmp/phase1.log 2>&1
-          code=$?
           cat /tmp/phase1.log
-          if [ "$code" -ne 0 ]; then
-            git reset --hard HEAD
-            cp /tmp/phase1.log phase1-error.txt
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add phase1-error.txt
-            git commit -m "Capture TAD Phase 1 patch failure"
-            git push origin HEAD:fix/phase-1-production-blockers
-            exit "$code"
-          fi
+      - name: Upload patch log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: tad-phase1-log
+          retention-days: 1
+          path: /tmp/phase1.log
+      - name: Stop on patch failure
+        if: steps.patch.outcome == 'failure'
+        run: exit 1
       - run: node tests/run-tests.mjs
-      - name: Preserve workflow for token-safe commit
-        run: git checkout HEAD -- .github/workflows/phase1-apply.yml
-      - name: Commit patched production blockers
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A
-          git commit -m "Fix TAD Phase 1 production blockers"
-          git push origin HEAD:fix/phase-1-production-blockers
+      - name: Upload verified Phase 1 files
+        uses: actions/upload-artifact@v4
+        with:
+          name: tad-phase1-verified
+          retention-days: 1
+          path: |
+            app/assets/engine.js
+            app/assets/app.js
+            tests/run-tests.mjs
+            index.html
+            admin-systems.html
+            docs/PRODUCTION-WIRING.md
+            supabase/migrations/0001_restrict_rls_auto_enable.sql
