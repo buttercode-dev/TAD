@@ -40,6 +40,8 @@ GitHub Actions runs this suite on every pull request and push to `main`.
 
 Only deployments produced from repository ID `1296727734` (`Buttercode-systems/TAD`) are authoritative. If Vercel metadata still shows the historical owner name while the repository ID and current content match, treat the stable repository ID as the identity and confirm the deployed commit before release.
 
+Git webhook verification trigger: 2026-07-11 11:43 SAST.
+
 ## Backend activation gate
 
 Do not connect real client data to the reserved Supabase project until all of the following exist:
