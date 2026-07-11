@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Admin Audit — The Admin Department</title>
+  <meta name="description" content="A structured Admin Audit that identifies the biggest admin leaks and recommends the first workflow to fix." />
+  <link rel="stylesheet" href="admin-audit.css" />
+</head>
+<body>
+  <header class="audit-header no-print">
+    <a class="logo" href="index.html">The Admin Department</a>
+    <nav><a href="index.html">Home</a><a href="admin-systems.html">Systems</a><a href="app/">Admin HQ</a></nav>
+  </header>
+
+  <main class="audit-shell">
+    <section class="audit-hero">
+      <div>
+        <p class="eyebrow">Structured Admin Audit</p>
+        <h1>Find the admin leak to fix first.</h1>
+        <p class="lead">Answer a short set of process questions. The audit ranks the six admin departments, identifies the first controlled setup to install, and prepares a brief you can send for review.</p>
+      </div>
+      <aside class="safety" role="note"><strong>Process information only.</strong> Do not enter identity numbers, banking details, passwords, patient information, confidential client records or document contents. This page does not store or transmit your answers automatically.</aside>
+    </section>
+
+    <form id="admin-audit-form" class="audit-form">
+      <section class="panel">
+        <h2>1. Your business</h2>
+        <p class="panel-intro">Enough context to understand the workflow—not confidential records.</p>
+        <div class="field-grid">
+          <label>Business name<input name="business" required maxlength="200" /></label>
+          <label>Your name<input name="contact" required maxlength="200" /></label>
+          <label>Email<input name="email" required type="email" maxlength="320" /></label>
+          <label>Team size<select name="team_size" required><option value="">Choose</option><option>Just me</option><option>2–5 people</option><option>6–20 people</option><option>More than 20</option></select></label>
+          <label>Admin hours per week<select name="admin_hours" required><option value="">Choose</option><option>Less than 5</option><option>5–10</option><option>11–20</option><option>More than 20</option></select></label>
+          <label>What do you want fixed first?<input name="outcome" required maxlength="500" placeholder="Example: stop missing quote follow-ups" /></label>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>2. Rate each admin area</h2>
+        <p class="panel-intro">0 means not relevant or controlled. 4 means painful, repeated and costing time or money.</p>
+        <div class="department-grid">
+          <label>Invoice Admin<small>Supplier invoices, approvals, filing, duplicates and payment evidence.</small><select name="invoice"><option value="0">0 — controlled/not relevant</option><option value="1">1 — occasional friction</option><option value="2">2 — repeated delays</option><option value="3">3 — serious leakage</option><option value="4">4 — urgent</option></select></label>
+          <label>Sales Admin<small>Enquiries, response time, quotes, follow-ups and lost leads.</small><select name="sales"><option value="0">0 — controlled/not relevant</option><option value="1">1 — occasional friction</option><option value="2">2 — repeated delays</option><option value="3">3 — serious leakage</option><option value="4">4 — urgent</option></select></label>
+          <label>Client Admin<small>Onboarding, missing documents, agreements, payments and handover.</small><select name="client"><option value="0">0 — controlled/not relevant</option><option value="1">1 — occasional friction</option><option value="2">2 — repeated delays</option><option value="3">3 — serious leakage</option><option value="4">4 — urgent</option></select></label>
+          <label>Property Admin<small>Tenant requests, owner approvals, quotes, scheduling and proof.</small><select name="property"><option value="0">0 — controlled/not relevant</option><option value="1">1 — occasional friction</option><option value="2">2 — repeated delays</option><option value="3">3 — serious leakage</option><option value="4">4 — urgent</option></select></label>
+          <label>Practice Admin<small>Booking and front-desk workflow only. Never enter patient data.</small><select name="practice"><option value="0">0 — controlled/not relevant</option><option value="1">1 — occasional friction</option><option value="2">2 — repeated delays</option><option value="3">3 — serious leakage</option><option value="4">4 — urgent</option></select></label>
+          <label>Member Admin<small>Onboarding, attendance risk, payments, retention and reactivation.</small><select name="member"><option value="0">0 — controlled/not relevant</option><option value="1">1 — occasional friction</option><option value="2">2 — repeated delays</option><option value="3">3 — serious leakage</option><option value="4">4 — urgent</option></select></label>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>3. What is happening now?</h2>
+        <p class="panel-intro">Select every warning signal that is true.</p>
+        <div class="signals">
+          <label><input type="checkbox" name="signals" value="missed_followups" />Leads or quotes are not followed up consistently.</label>
+          <label><input type="checkbox" name="signals" value="late_invoices" />Invoices, approvals or proof of payment are late or hard to find.</label>
+          <label><input type="checkbox" name="signals" value="missing_documents" />Work waits because client or supplier documents are missing.</label>
+          <label><input type="checkbox" name="signals" value="approvals_stuck" />Approvals depend on messages, memory or one unavailable person.</label>
+          <label><input type="checkbox" name="signals" value="property_requests" />Property or maintenance requests disappear across WhatsApp and calls.</label>
+          <label><input type="checkbox" name="signals" value="booking_admin" />Bookings, confirmations or front-desk follow-ups are inconsistent.</label>
+          <label><input type="checkbox" name="signals" value="member_churn" />Members fall behind on attendance or payment without a clear follow-up queue.</label>
+          <label><input type="checkbox" name="signals" value="manual_reporting" />Weekly reporting is assembled manually from multiple places.</label>
+          <label><input type="checkbox" name="signals" value="owner_visibility" />The owner has to ask staff what is done, blocked or overdue.</label>
+        </div>
+        <label style="margin-top:18px">Extra process notes<textarea name="notes" maxlength="1200" placeholder="Describe the workflow problem without including confidential records."></textarea></label>
+      </section>
+
+      <div class="actions"><button class="primary" type="submit">Build my Admin Audit</button><a class="button" href="admin-systems.html">Review the working systems</a></div>
+    </form>
+
+    <section id="audit-result" class="audit-result" hidden aria-live="polite">
+      <div class="score-card"><div><p class="eyebrow">Admin leakage score</p><h2 id="audit-band">Audit result</h2></div><strong id="audit-score">0/100</strong></div>
+      <div id="audit-priorities" class="priorities"></div>
+      <div class="result-actions no-print"><a id="email-audit" class="button primary" href="mailto:buttercoder.dev@gmail.com?subject=Admin%20Audit%20Request">Email this audit for review</a><button id="print-audit" type="button">Save or print audit</button></div>
+      <p class="fine-print">The score is a workflow-priority indicator, not accounting, legal, clinical or compliance advice. A paid pilot is only proposed after the workflow is reviewed with real but appropriately protected examples.</p>
+    </section>
+  </main>
+
+  <footer><p>The Admin Department — practical admin systems for South African SMEs and founder-led service businesses.</p></footer>
+  <script src="admin-audit.js"></script>
+</body>
+</html>
