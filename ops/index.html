@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Operations Console — The Admin Department</title>
+  <meta name="description" content="Private service-delivery console for The Admin Department operators." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="ops-header">
+    <a class="brand" href="../index.html"><span>The Admin</span> Department</a>
+    <div class="header-meta">
+      <span class="environment">Service operations</span>
+      <button id="sign-out" class="text-button" type="button" hidden>Sign out</button>
+    </div>
+  </header>
+
+  <main>
+    <section id="auth-view" class="auth-shell">
+      <div class="auth-copy">
+        <p class="eyebrow">Private operator workspace</p>
+        <h1>Run every client from one control room.</h1>
+        <p>This console connects managed client workspaces, DueToday actions, approvals and weekly reports. It is for authorised TAD operators—not a public Admin HQ demo.</p>
+        <div class="boundary"><strong>Protected operational data only.</strong><span>Use approved client records and follow the agreed retention, access and communication rules.</span></div>
+      </div>
+      <form id="auth-form" class="auth-card">
+        <p class="eyebrow">Operator access</p>
+        <h2>Sign in</h2>
+        <label>Email<input id="auth-email" type="email" autocomplete="email" required /></label>
+        <label>Password<input id="auth-password" type="password" autocomplete="current-password" minlength="8" required /></label>
+        <button class="button primary" type="submit">Sign in</button>
+        <button id="create-account" class="button secondary" type="button">Create first operator account</button>
+        <p id="auth-message" class="form-message" aria-live="polite"></p>
+        <p class="fine-print">The first confirmed account can claim the initial TAD administrator role. Later accounts need an existing operator to grant access.</p>
+      </form>
+    </section>
+
+    <section id="denied-view" class="state-shell" hidden>
+      <p class="eyebrow">Access restricted</p>
+      <h1>This account is not a TAD operator.</h1>
+      <p>An existing administrator must add this account before it can view managed client workspaces.</p>
+      <button id="denied-sign-out" class="button secondary" type="button">Sign out</button>
+    </section>
+
+    <section id="app-view" class="ops-shell" hidden>
+      <div id="demo-banner" class="demo-banner" hidden><strong>Sample operations mode.</strong> Nothing on this page is stored or sent.</div>
+
+      <section class="ops-hero">
+        <div>
+          <p class="eyebrow">Managed admin delivery</p>
+          <h1>Operations Console</h1>
+          <p>See what is due across clients, move approvals, generate reports and open the exact DueToday workspace that needs attention.</p>
+        </div>
+        <div class="hero-actions">
+          <button id="refresh-dashboard" class="button secondary" type="button">Refresh</button>
+          <button id="open-client-dialog" class="button primary" type="button">Onboard client</button>
+        </div>
+      </section>
+
+      <section id="summary-cards" class="summary-grid" aria-label="Operations summary"></section>
+
+      <nav class="tabs" aria-label="Operations views">
+        <button class="active" data-tab="clients" type="button">Clients</button>
+        <button data-tab="actions" type="button">Due work</button>
+        <button data-tab="approvals" type="button">Approvals</button>
+        <button data-tab="reports" type="button">Reports</button>
+      </nav>
+
+      <section id="clients-panel" class="tab-panel">
+        <div class="panel-heading">
+          <div><p class="eyebrow">Client portfolio</p><h2>Managed workspaces</h2></div>
+          <p>Every client shows its active service, due work, approval queue and next review.</p>
+        </div>
+        <div id="client-list" class="client-grid"></div>
+      </section>
+
+      <section id="actions-panel" class="tab-panel" hidden>
+        <div class="panel-heading">
+          <div><p class="eyebrow">Operator queue</p><h2>Work due now</h2></div>
+          <p>Complete the operational action, record the outcome and set the next date where required.</p>
+        </div>
+        <div id="action-list" class="work-list"></div>
+      </section>
+
+      <section id="approvals-panel" class="tab-panel" hidden>
+        <div class="panel-heading">
+          <div><p class="eyebrow">Human control</p><h2>Approvals waiting</h2></div>
+          <button id="open-approval-dialog" class="button secondary" type="button">Request approval</button>
+        </div>
+        <div id="approval-list" class="work-list"></div>
+      </section>
+
+      <section id="reports-panel" class="tab-panel" hidden>
+        <div class="panel-heading">
+          <div><p class="eyebrow">Proof of value</p><h2>Weekly reports</h2></div>
+          <p>Generate a consistent operating summary from the client’s live DueToday activity.</p>
+        </div>
+        <div id="report-list" class="report-grid"></div>
+      </section>
+    </section>
+  </main>
+
+  <dialog id="client-dialog">
+    <form id="client-form" method="dialog" class="dialog-card">
+      <div class="dialog-heading"><div><p class="eyebrow">Managed service intake</p><h2>Onboard a client</h2></div><button class="icon-button" value="cancel" aria-label="Close">×</button></div>
+      <div class="field-grid">
+        <label>Business name<input name="name" required maxlength="200" /></label>
+        <label>Industry<input name="industry" maxlength="120" placeholder="Example: electrical contractor" /></label>
+        <label>Primary contact<input name="contact_name" maxlength="200" /></label>
+        <label>Contact email<input name="contact_email" type="email" maxlength="320" /></label>
+        <label>First department<select name="department" required><option value="sales">Sales Admin</option><option value="invoice">Invoice Admin</option><option value="client">Client Admin</option><option value="property">Property Admin</option><option value="practice">Practice / Booking Admin</option><option value="member">Member Admin</option><option value="core">DueToday Core</option></select></label>
+        <label>Service level<select name="service_level" required><option value="audit">Audit</option><option value="setup" selected>Setup</option><option value="managed">Managed Admin</option><option value="support">Monthly Support</option></select></label>
+      </div>
+      <p id="client-message" class="form-message" aria-live="polite"></p>
+      <div class="dialog-actions"><button class="button secondary" value="cancel">Cancel</button><button class="button primary" type="submit" value="default">Create managed workspace</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="outcome-dialog">
+    <form id="outcome-form" method="dialog" class="dialog-card">
+      <input type="hidden" name="action_id" />
+      <div class="dialog-heading"><div><p class="eyebrow">Operational result</p><h2 id="outcome-title">Record outcome</h2></div><button class="icon-button" value="cancel" aria-label="Close">×</button></div>
+      <label>Outcome<select name="outcome_code"><option value="contacted">Contacted — awaiting answer</option><option value="no_answer">No answer</option><option value="follow_up">Follow up again</option><option value="won">Won</option><option value="lost">Lost</option><option value="paid">Paid</option><option value="approved">Approved</option><option value="completed">Completed</option><option value="not_needed">Not needed</option><option value="other">Other</option></select></label>
+      <label>What happened?<textarea name="outcome_note" rows="3" maxlength="1000"></textarea></label>
+      <label>Next action date<input name="next_action_date" type="date" /></label>
+      <p id="outcome-message" class="form-message" aria-live="polite"></p>
+      <div class="dialog-actions"><button class="button secondary" value="cancel">Cancel</button><button class="button primary" type="submit" value="default">Save outcome</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="approval-dialog">
+    <form id="approval-form" method="dialog" class="dialog-card">
+      <div class="dialog-heading"><div><p class="eyebrow">Human approval gate</p><h2>Request a decision</h2></div><button class="icon-button" value="cancel" aria-label="Close">×</button></div>
+      <label>Client<select id="approval-business" name="business_id" required></select></label>
+      <label>Decision title<input name="title" required maxlength="200" placeholder="Example: Approve supplier quote" /></label>
+      <label>Supporting detail<textarea name="detail" rows="3" maxlength="1200"></textarea></label>
+      <div class="field-grid"><label>Amount, if relevant<input name="amount" type="number" min="0" step="0.01" /></label><label>Decision due<input name="due_date" type="date" /></label></div>
+      <p id="approval-message" class="form-message" aria-live="polite"></p>
+      <div class="dialog-actions"><button class="button secondary" value="cancel">Cancel</button><button class="button primary" type="submit" value="default">Add approval request</button></div>
+    </form>
+  </dialog>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
