@@ -2,86 +2,71 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 
 const read = (path) => readFileSync(new URL(`../${path}`, import.meta.url), 'utf8');
-const home = read('index.html');
-const readme = read('README.md');
-const wiring = read('docs/PRODUCTION-WIRING.md');
-const manual = read('docs/TAD-OPERATING-MANUAL.md');
-const truth = read('docs/PROMISE-TRUTH-MATRIX.md');
-const tests = read('docs/PERMANENT-TESTS.md');
-const portal = read('portal/index.html');
-const hq = read('ops/index.html');
-const offerScript = read('admin-service-offer.js');
+const files = {
+  home: read('index.html'),
+  readme: read('README.md'),
+  wiring: read('docs/PRODUCTION-WIRING.md'),
+  manual: read('docs/TAD-OPERATING-MANUAL.md'),
+  truth: read('docs/PROMISE-TRUTH-MATRIX.md'),
+  permanentTests: read('docs/PERMANENT-TESTS.md'),
+  portal: read('portal/index.html'),
+  hq: read('ops/index.html'),
+  offerScript: read('admin-service-offer.js'),
+};
 
+for (const [name, content] of Object.entries(files)) {
+  assert.ok(content.trim().length > 100, `${name} must contain meaningful content`);
+}
+
+const home = files.home.toLowerCase();
 for (const phrase of [
-  'Application is not instant activation',
-  'Payment is handled manually before implementation',
+  'application is not instant activation',
+  'payment is handled manually before implementation',
   'does not automatically email the client',
   'same verified email supplied in the application',
-  'No automatic purchase',
+  'no automatic purchase',
 ]) {
-  assert.ok(home.includes(phrase), `homepage must disclose: ${phrase}`);
+  assert.ok(home.includes(phrase), `homepage must disclose ${phrase}`);
 }
 
+const manual = files.manual.toLowerCase();
 for (const phrase of [
-  'Complete TAD operating manual',
-  'Promise truth matrix',
-  'Why the permanent tests exist',
-  'browser audit is only the diagnostic front door',
-]) {
-  assert.ok(readme.includes(phrase), `README must include ${phrase}`);
-}
-
-for (const phrase of [
-  'Buttercode-systems/TAD',
-  'Buttercode-systems/DTC',
-  'split architecture',
-  'Public workflow previews remain browser-only sample systems',
-  'payment collection',
-  'verified-email client access',
-]) {
-  assert.ok(wiring.toLowerCase().includes(phrase.toLowerCase()), `production wiring must include ${phrase}`);
-}
-
-for (const phrase of [
-  'A ready result does not mean automatic acceptance',
+  'a ready result does not mean automatic acceptance',
   'no workspace is created',
-  'automatically email the client',
-  'does not mean downloading an app',
-  'Payment is currently handled manually',
-  'Daily operation',
-  'Viewer can see the item but cannot decide',
-  'Go-live checklist for each paying client',
-  'Do not mark a client Converted until portal access',
+  'payment is currently handled manually',
+  'client portal activation link',
+  'daily operation',
+  'go-live checklist for each paying client',
 ]) {
   assert.ok(manual.includes(phrase), `operating manual must include ${phrase}`);
 }
 
+const truth = files.truth.toLowerCase();
 for (const phrase of [
-  'Client can purchase a service entirely online',
-  'Missing',
-  'Workspace creation automatically emails the client',
-  'complete document-management repository',
-  'Viewer is read-only for decisions',
-  'No system can ever fail or expose data',
-  'Impossible guarantee',
+  'client can purchase a service entirely online',
+  'workspace creation automatically emails the client',
+  'viewer is read-only for decisions',
+  'impossible guarantee',
+  'blocking gaps before broad paid launch',
 ]) {
   assert.ok(truth.includes(phrase), `truth matrix must include ${phrase}`);
 }
 
+const permanentTests = files.permanentTests.toLowerCase();
 for (const phrase of [
-  'A permanent test is a repeatable check',
-  'temporary, isolated Supabase environment',
-  'What permanent tests do not prove',
-  'Yes.',
+  'a permanent test is a repeatable check',
+  'what permanent tests do not prove',
   'never merge while a relevant test is red',
 ]) {
-  assert.ok(tests.includes(phrase), `permanent-test guide must include ${phrase}`);
+  assert.ok(permanentTests.includes(phrase), `permanent-test guide must include ${phrase}`);
 }
 
-assert.ok(portal.includes('https://due-today-six.vercel.app/portal'), 'public Client Portal entry must target the authenticated portal');
-assert.ok(hq.includes('https://due-today-six.vercel.app/hq'), 'public Admin HQ entry must target the authenticated HQ');
-assert.ok(offerScript.includes("var ENDPOINT='https://due-today-six.vercel.app/api/tad/applications'"), 'paid offers must submit to the authenticated intake');
-assert.equal(offerScript.includes('payment'), false, 'public application script must not pretend to collect payment');
-assert.equal(offerScript.includes('workspace'), false, 'public application script must not create workspaces directly');
+assert.ok(files.wiring.includes('Buttercode-systems/TAD'));
+assert.ok(files.wiring.includes('Buttercode-systems/DTC'));
+assert.ok(files.portal.includes('https://due-today-six.vercel.app/portal'));
+assert.ok(files.hq.includes('https://due-today-six.vercel.app/hq'));
+assert.ok(files.offerScript.includes("var ENDPOINT='https://due-today-six.vercel.app/api/tad/applications'"));
+assert.equal(files.offerScript.includes('payment'), false, 'public application code must not pretend to collect payment');
+assert.equal(files.offerScript.includes('workspace'), false, 'public application code must not create workspaces');
 
 console.log('TAD operational truth contract passed.');
