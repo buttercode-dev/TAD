@@ -1,0 +1,19 @@
+name: Diagnose TAD Tests
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: tar -czf tad-test-diagnostics.tar.gz .github/workflows tests
+      - uses: actions/upload-artifact@v4
+        with:
+          name: tad-test-diagnostics
+          path: tad-test-diagnostics.tar.gz
