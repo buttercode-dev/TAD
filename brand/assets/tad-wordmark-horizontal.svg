@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="520" height="64" viewBox="0 0 520 64">
+  <rect x="6" y="6" width="52" height="52" rx="10" fill="#111111"/>
+  <circle cx="23" cy="23" r="7" fill="#FFFDF8"/>
+  <circle cx="41" cy="23" r="7" fill="#D8FF57"/>
+  <path d="M18 40h28" stroke="#FFFDF8" stroke-width="6"/>
+  <text x="78" y="29" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="900" letter-spacing="-1.4" fill="#111111">The Admin Department</text>
+  <text x="79" y="48" font-family="Courier New, monospace" font-size="9.5" font-weight="700" letter-spacing="1.2" fill="#6F675D">CONTROL THE WORK. SEE WHAT'S DUE.</text>
+</svg>
