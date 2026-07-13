@@ -140,8 +140,8 @@ try {
     await new Promise((resolve) => setTimeout(resolve, 100));
   }
 
-  assert.equal(await cdp.evaluate("document.title"), 'Admin Audit — The Admin Department');
-  assert.equal(await cdp.evaluate("Boolean(window.AdminAudit)"), true, 'Audit engine should load');
+  assert.equal(await cdp.evaluate('document.title'), 'Admin Audit — The Admin Department');
+  assert.equal(await cdp.evaluate('Boolean(window.AdminAudit)'), true, 'Audit engine should load');
 
   assert.equal(await cdp.evaluate(`(() => {
     const form = document.querySelector('#admin-audit-form');
@@ -198,6 +198,7 @@ try {
     });
     form.elements.notes.value = 'Synthetic browser test. No private records.';
     form.requestSubmit();
+    const offer = document.querySelector('#email-audit');
     return {
       resultVisible: !document.querySelector('#audit-result').hidden,
       formHidden: form.hidden,
@@ -207,7 +208,7 @@ try {
       rootCauses: document.querySelector('#root-causes').children.length,
       pilotStages: document.querySelector('#pilot-plan').children.length,
       measures: document.querySelector('#success-measures').children.length,
-      emailReady: document.querySelector('#email-audit').href.startsWith('mailto:')
+      offerReady: offer.href.includes('/property-admin-service.html?') && offer.textContent.includes('Property Admin offer')
     };
   })()`);
 
@@ -220,7 +221,7 @@ try {
     rootCauses: 4,
     pilotStages: 4,
     measures: 4,
-    emailReady: true
+    offerReady: true
   });
 
   await cdp.send('Emulation.setDeviceMetricsOverride', {
