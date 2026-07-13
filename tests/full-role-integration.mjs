@@ -12,7 +12,7 @@ const password = 'Tad-E2E-Only-2026!';
 const stamp = Date.now();
 
 const identities = {
-  operator: { email: `operator-${stamp}@tad.test`, business: 'TAD Test Operator' },
+  operator: { email: 'buttercoder.dev@gmail.com', business: 'TAD Test Operator' },
   client: { email: `client-${stamp}@tad.test`, business: 'Client One Pty Ltd' },
   client2: { email: `client2-${stamp}@tad.test`, business: 'Client Two Pty Ltd' },
   viewer: { email: `viewer-${stamp}@tad.test`, business: 'Viewer User' },
@@ -54,14 +54,13 @@ async function rpcFails(client, fn, args = {}, pattern = /access|operator|manage
 const users = {};
 for (const [key, identity] of Object.entries(identities)) users[key] = await createUser(identity);
 
-assert.ifError((await admin.from('platform_operators').insert({ user_id: users.operator.id, role: 'admin', active: true })).error);
-
 const operator = await signedIn(identities.operator.email);
 const client = await signedIn(identities.client.email);
 const client2 = await signedIn(identities.client2.email);
 const viewer = await signedIn(identities.viewer.email);
 const outsider = await signedIn(identities.outsider.email);
 
+assert.equal(await rpcOk(operator, 'claim_first_tad_operator'), true);
 assert.equal(await rpcOk(operator, 'is_current_tad_operator'), true);
 assert.equal(await rpcOk(client, 'is_current_tad_operator'), false);
 await rpcFails(client, 'list_tad_applications');
@@ -157,7 +156,7 @@ const client2Businesses = await rpcOk(client2, 'list_accessible_businesses');
 assert.deepEqual(client2Businesses.map((business) => business.id), [invoiceBusinessId]);
 assert.deepEqual(await rpcOk(outsider, 'list_accessible_businesses'), []);
 
-assert.ifError((await admin.from('business_memberships').insert({
+assert.ifError((await operator.from('business_memberships').insert({
   business_id: salesBusinessId, user_id: users.viewer.id, role: 'viewer', active: true,
 })).error);
 
@@ -187,7 +186,7 @@ assert.equal(viewerWorkflow.items.length, 1);
 await rpcFails(client, 'get_service_workflow', { p_business_id: invoiceBusinessId }, /business not accessible/i);
 await rpcFails(outsider, 'get_service_workflow', { p_business_id: salesBusinessId }, /business not accessible/i);
 
-const { data: approval, error: approvalError } = await admin.from('service_approvals').insert({
+const { data: approval, error: approvalError } = await operator.from('service_approvals').insert({
   business_id: salesBusinessId,
   engagement_id: engagementId,
   title: 'Approve synthetic follow-up',
@@ -210,7 +209,7 @@ await rpcFails(client, 'decide_client_service_approval', {
 }, /already decided/i);
 
 const today = new Date().toISOString().slice(0, 10);
-const { data: report, error: reportError } = await admin.from('service_reports').insert({
+const { data: report, error: reportError } = await operator.from('service_reports').insert({
   business_id: salesBusinessId,
   engagement_id: engagementId,
   period_start: today,
