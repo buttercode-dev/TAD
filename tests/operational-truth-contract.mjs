@@ -70,7 +70,7 @@ for (const phrase of [
 
 for (const phrase of [
   'A permanent test is a repeatable check',
-  'temporary, isolated Supabase stack',
+  'temporary, isolated Supabase environment',
   'What permanent tests do not prove',
   'Yes.',
   'never merge while a relevant test is red',
