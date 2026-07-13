@@ -1,0 +1,59 @@
+name: Full TAD Operator and Client Integration
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  role-integration:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out TAD
+        uses: actions/checkout@v4
+
+      - name: Check out the authenticated TAD engine
+        uses: actions/checkout@v4
+        with:
+          repository: Buttercode-systems/DTC
+          ref: fix/tad-client-access-and-e2e
+          path: dtc-engine
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Set up Supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - name: Start isolated Supabase stack and apply every migration
+        working-directory: dtc-engine
+        run: supabase start
+
+      - name: Install integration client
+        run: npm install --no-save --ignore-scripts @supabase/supabase-js@2.110.1
+
+      - name: Test every operator and client promise
+        shell: bash
+        run: |
+          cd dtc-engine
+          supabase status -o env > /tmp/tad-supabase.env
+          cd ..
+          set -a
+          source /tmp/tad-supabase.env
+          set +a
+          node tests/full-role-integration.mjs
+
+      - name: Stop isolated Supabase stack
+        if: always()
+        working-directory: dtc-engine
+        run: supabase stop --no-backup
