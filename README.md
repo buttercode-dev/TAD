@@ -14,14 +14,19 @@ We set up the processes, trackers, templates, reminders, reports, and approval f
 
 AI and automation are used behind the scenes, but important actions stay human-approved.
 
+## How the product is operated
+
+- [Complete TAD operating manual](docs/TAD-OPERATING-MANUAL.md)
+- [Promise truth matrix](docs/PROMISE-TRUTH-MATRIX.md)
+- [Why the permanent tests exist](docs/PERMANENT-TESTS.md)
+
+These documents are part of the product contract. Marketing copy must not promise more than the operating manual and truth matrix can support.
+
 ## MVP departments
 
 1. **Invoice Admin** — supplier invoices, receipts, documents, approvals, filing, exceptions.
 2. **Sales Admin** — enquiries, lead capture, response tracking, quote follow-up, sales reports.
 3. **Client Admin** — onboarding, welcome process, document collection, folder setup, payment/request follow-up.
-
-Later departments:
-
 4. **Property Admin** — tenant messages, rent reminders, maintenance, viewings, owner reports.
 5. **Practice Admin** — bookings, reminders, no-shows, receptionist admin, patient admin boundaries.
 6. **Member Admin** — gym/member onboarding, attendance follow-up, failed-payment reminders, reactivation.
@@ -39,6 +44,8 @@ Deliverables:
 - recommended department setup
 - quick-win improvements
 - implementation quote
+
+The browser audit is only the diagnostic front door. A paid Admin Audit still requires a human TAD review, workflow mapping and implementation quote.
 
 ## Build rule
 
