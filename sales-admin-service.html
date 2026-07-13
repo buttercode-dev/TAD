@@ -109,9 +109,12 @@
       <div class="application-copy">
         <p class="eyebrow">Readiness check</p>
         <h2>Use real operating facts. Do not paste customer records.</h2>
-        <p>This form runs in your browser. It does not submit data automatically. When complete, it prepares a structured email that you choose to send.</p>
+        <p>The readiness check runs in your browser first. Qualified applications are then submitted securely for private TAD review. Do not enter customer lead or quote records in this form.</p>
       </div>
       <form id="sales-admin-application" class="application-form" novalidate>
+        <div aria-hidden="true" style="position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden">
+          <label>Company website<input name="company_website" tabindex="-1" autocomplete="off" /></label>
+        </div>
         <div class="field-grid">
           <label>Business name<input name="business" required maxlength="160" autocomplete="organization" /></label>
           <label>Your name<input name="contact" required maxlength="160" autocomplete="name" /></label>
@@ -134,8 +137,9 @@
         <h2 id="readiness-title">Result</h2>
         <p id="readiness-summary"></p>
         <ul id="readiness-reasons"></ul>
+        <p id="submission-status" class="fine-print" aria-live="polite"></p>
         <div class="hero-actions">
-          <a id="send-application" class="button primary" href="#" hidden>Email the application</a>
+          <button id="send-application" class="button primary" type="button" hidden>Submit application securely</button>
           <a class="button secondary" href="admin-audit.html">Complete the Admin Audit</a>
           <button id="edit-application" class="text-button" type="button">Edit answers</button>
         </div>
