@@ -20,6 +20,8 @@ jobs:
           node-version: 24
       - name: Admin HQ and evidence regression
         run: node tests/run-tests.mjs
+      - name: Operational truth contract
+        run: node tests/operational-truth-contract.mjs
       - name: Admin Audit browser journey
         shell: bash
         run: |
