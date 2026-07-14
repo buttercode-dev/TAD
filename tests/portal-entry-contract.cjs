@@ -23,6 +23,20 @@ assert.equal(
   'systems page must not render DueToday as the client platform'
 );
 
+for (const phrase of [
+  'id="free-software"',
+  'Free self-service software',
+  'Start with DueToday for free',
+  'https://due-today-six.vercel.app/signup',
+  'No TAD setup or data loading included',
+  'No managed queue operation',
+  'No automatic TAD application'
+]) {
+  assert.ok(home.includes(phrase), `homepage free option must include ${phrase}`);
+}
+assert.equal(home.includes('free managed'), false, 'DueToday must never be described as a free managed service');
+assert.equal(home.includes('TAD will set up DueToday for free'), false, 'free DueToday must not create operator work');
+
 assert.ok(hq.includes('https://due-today-six.vercel.app/hq'), 'operator entry must use the branded Admin HQ route');
 assert.ok(hq.includes('Opening TAD Admin HQ'), 'operator handoff must remain TAD branded');
 assert.equal(hq.includes('DueToday authentication'), false, 'operator handoff must not expose the engine brand');
@@ -31,4 +45,4 @@ assert.ok(portal.includes('https://due-today-six.vercel.app/portal'), 'client en
 assert.ok(portal.includes('Opening your TAD Client Portal'), 'client handoff must remain TAD branded');
 assert.ok(portal.includes('decisions, workflow progress and weekly service reports'), 'client entry must explain the portal purpose');
 
-console.log('TAD public portal entry contract passed.');
+console.log('TAD public portal and free DueToday entry contract passed.');

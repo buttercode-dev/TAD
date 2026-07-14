@@ -14,6 +14,17 @@ We set up the processes, trackers, templates, reminders, reports, and approval f
 
 AI and automation are used behind the scenes, but important actions stay human-approved.
 
+## Free self-service option
+
+DueToday is offered from the TAD website as a separate free self-service product for leads, quotes, invoices and daily money actions.
+
+- Users create and operate their own DueToday workspace.
+- TAD does not configure the workspace, import records or run the queue for free.
+- DueToday signup does not create a TAD application, managed workspace or operator obligation.
+- TAD paid services remain implementation and managed-operation offers for one agreed workflow within a contracted active-record boundary.
+
+This creates a clear path from free self-service software to the paid Admin Audit, paid setup and paid managed service without blurring the product promises.
+
 ## How the product is operated
 
 - [Complete TAD operating manual](docs/TAD-OPERATING-MANUAL.md)
@@ -32,7 +43,7 @@ These documents are part of the product contract. Marketing copy must not promis
 5. **Practice Admin** — bookings, reminders, no-shows, receptionist admin, patient admin boundaries.
 6. **Member Admin** — gym/member onboarding, attendance follow-up, failed-payment reminders, reactivation.
 
-## First offer
+## First paid offer
 
 **Admin Audit**
 
