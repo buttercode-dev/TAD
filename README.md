@@ -17,10 +17,11 @@ AI and automation are used behind the scenes, but important actions stay human-a
 ## How the product is operated
 
 - [Complete TAD operating manual](docs/TAD-OPERATING-MANUAL.md)
+- [Premium service delivery system](docs/PREMIUM-SERVICE-DELIVERY-SYSTEM.md)
 - [Promise truth matrix](docs/PROMISE-TRUTH-MATRIX.md)
 - [Why the permanent tests exist](docs/PERMANENT-TESTS.md)
 
-These documents are part of the product contract. Marketing copy must not promise more than the operating manual and truth matrix can support.
+These documents are part of the product contract. Marketing copy must not promise more than the operating manual and truth matrix can support. Service delivery must follow the premium delivery system so current prices are justified through predictable control, evidence and scope—not extra feature promises or duplicate operator work.
 
 ## MVP departments
 
@@ -39,17 +40,22 @@ We review a business's current admin process and show where work is delayed, rep
 
 Deliverables:
 
-- workflow map
-- top admin leaks
+- one-page executive finding
+- current workflow map
+- top three admin control leaks
+- baseline measure
 - recommended department setup
-- quick-win improvements
-- implementation quote
+- 14-day implementation plan
+- exact implementation quote
+- Proceed, Fix Internally or Not Suitable recommendation
 
-The browser audit is only the diagnostic front door. A paid Admin Audit still requires a human TAD review, workflow mapping and implementation quote.
+The browser audit is only the diagnostic front door. A paid Admin Audit still requires a human TAD review and the complete standard delivery above.
 
 ## Build rule
 
 Do not overbuild software before a paying pilot.
+
+Improve the current service by standardising delivery, strengthening evidence, clarifying scope and reducing operator variation. Do not add feature categories merely to make the offer look larger.
 
 First version should use simple, reliable pieces:
 
